@@ -1,0 +1,26 @@
+{
+  "name": "hotelpedia-server",
+  "version": "1.0.0",
+  "private": true,
+  "main": "app.ts",
+  "repository": "https://github.com/ahmadtirmazi/hotelpedia.git",
+  "author": "Ahmad Tirmazi",
+  "scripts": {
+    "prebuild": "rm -rf ./dist && mkdir dist",
+    "start": "tsc && NODE_PATH=./dist node ./src/bin/www",
+    "dev": "NODE_PATH=./dist nodemon -e ts --exec 'tsc && node ./src/bin/www'",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.4",
+    "@types/jest": "^25.1.4",
+    "jest": "^25.2.4",
+    "node-mocks-http": "^1.8.1",
+    "nodemon": "^2.0.2",
+    "ts-jest": "^25.3.0",
+    "typescript": "^3.8.3"
+  }
+}
