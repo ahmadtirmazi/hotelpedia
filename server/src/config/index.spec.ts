@@ -4,7 +4,10 @@ describe("config", () => {
 
     expect(config).toMatchObject({
       port: expect.any(Number),
-      baseApiUrl: expect.any(String)
+      baseApiUrl: expect.any(String),
+      dataEndpoints: {
+        getAllHotels: expect.any(String),
+      },
     });
   });
 });

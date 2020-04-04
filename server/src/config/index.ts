@@ -1,4 +1,7 @@
 export default {
   port: 3000,
-  baseApiUrl: "/api"
+  baseApiUrl: "/api",
+  dataEndpoints: {
+    getAllHotels: "https://api.myjson.com/bins/tl0bp",
+  },
 };

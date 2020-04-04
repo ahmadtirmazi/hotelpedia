@@ -1,10 +1,8 @@
 import express from "express";
-import { Request, Response } from "express";
+const hotelsController = require("controllers/hotels");
 
 const router = express.Router();
 
-router.get("/", (req: Request, res: Response) => {
-  res.send("List of hotels!");
-});
+router.get("/", hotelsController.list);
 
 export default router;
