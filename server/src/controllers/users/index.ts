@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { handleError } from "utils/errorHandler";
-const { getAllHotels } = require("services/hotels");
+const { getAllUsers } = require("services/users");
 
 export const list = function (req: Request, res: Response) {
-  return getAllHotels()
+  return getAllUsers()
     .then((result: any) => res.status(200).json(result.data))
     .catch(handleError);
 };

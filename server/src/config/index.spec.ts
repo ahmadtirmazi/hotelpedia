@@ -6,7 +6,7 @@ describe("config", () => {
       port: expect.any(Number),
       baseApiUrl: expect.any(String),
       dataEndpoints: {
-        getAllHotels: expect.any(String),
+        getAllUsers: expect.any(String),
       },
     });
   });

@@ -1,9 +1,9 @@
 {
-  "name": "hotelpedia-server",
+  "name": "searchpedia-server",
   "version": "1.0.0",
   "private": true,
   "main": "app.ts",
-  "repository": "https://github.com/ahmadtirmazi/hotelpedia.git",
+  "repository": "https://github.com/ahmadtirmazi/searchpedia.git",
   "author": "Ahmad Tirmazi",
   "scripts": {
     "prebuild": "rm -rf ./dist && mkdir dist",

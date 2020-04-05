@@ -1,9 +1,9 @@
 import express from "express";
 
-import hotels from "routes/api/hotels";
+import users from "routes/api/users";
 
 const router = express.Router();
 
-router.use("/hotels", hotels);
+router.use("/users", users);
 
 export default router;

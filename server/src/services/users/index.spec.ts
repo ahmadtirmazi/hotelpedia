@@ -1,28 +1,28 @@
-import { getAllHotels } from ".";
+import { getAllUsers } from ".";
 import { HTTPMethod } from "utils/request";
 import config from "config";
 
 const request = require("utils/request");
 jest.mock("utils/request");
 
-describe("hotelsService", () => {
+describe("usersService", () => {
   let requestMock: any;
 
   beforeEach(() => {
     requestMock = request;
   });
 
-  describe("getAllHotels()", () => {
-    it(`should return a promise for list of hotels`, () => {
+  describe("getAllUsers()", () => {
+    it(`should return a promise for list of users`, () => {
       requestMock.request.mockReturnValue(Promise);
-      expect(getAllHotels()).toBe(Promise);
+      expect(getAllUsers()).toBe(Promise);
     });
 
     it(`should make a get request with correct endpoint`, () => {
-      getAllHotels();
+      getAllUsers();
       expect(requestMock.request).toHaveBeenCalledWith({
         method: HTTPMethod.GET,
-        url: config.dataEndpoints.getAllHotels,
+        url: config.dataEndpoints.getAllUsers,
       });
     });
   });
