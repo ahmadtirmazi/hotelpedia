@@ -1,9 +1,24 @@
 import { Request, Response } from "express";
-import { handleError } from "utils/errorHandler";
-const { getAllUsers } = require("services/users");
+
+import { getAllUsers } from "services/users";
+
+import { usersListQuery } from "validationSchemas";
+import {
+  handleError,
+  getPayloadValidationErrorMessage,
+} from "utils/errorHandler";
 
 export const list = function (req: Request, res: Response) {
-  return getAllUsers()
-    .then((result: any) => res.status(200).json(result.data))
-    .catch(handleError);
+  try {
+    const { payloadError, queryParams } = usersListQuery.validate(req.query);
+    if (payloadError) {
+      throw new Error(getPayloadValidationErrorMessage(payloadError));
+    }
+
+    return getAllUsers()
+      .then((result: any) => res.status(200).json(result.data))
+      .catch(handleError);
+  } catch (error) {
+    handleError(error, res);
+  }
 };
