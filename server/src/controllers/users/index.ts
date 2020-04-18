@@ -43,16 +43,28 @@ export const search = function (req: Request, res: Response) {
       throw new Error(getPayloadValidationErrorMessage(error));
     }
 
-    const keyword = params.name.toLowerCase();
-    const currentPage = params.currentPage;
-    const pageSize = params.pageSize;
+    const { searchBy, currentPage, pageSize, sortBy, sortOrder } = params;
+    const keyword = params.searchKeyword.toLowerCase();
 
     return getAllUsers()
-      .then((users: User[]) =>
-        users.filter((user: User) => user.name.toLowerCase().includes(keyword)))
+      .then((users: User[]) => {
+        return users.filter((user: any) => {
+          if (typeof user[searchBy] === 'string') {
+            return user[searchBy].toLowerCase().includes(keyword);
+          }
+          else return user[searchBy] == keyword;
+        })
+      })
       .then((filteredUsers: User[]) => {
         let totalRecords = filteredUsers.length;
+
+        // paginate
         let records = _.take(_.drop(filteredUsers, (currentPage - 1) * pageSize), pageSize);
+
+        // sort
+        if (sortBy && sortOrder) {
+          records = _.orderBy(records, [sortBy], [sortOrder]);
+        }
 
         res.status(200).json({
           totalRecords,
