@@ -8,7 +8,7 @@ import Home from "./home/index";
 function App() {
   return (
     <div className="App">
-      <Container maxWidth="sm">
+      <Container>
         <Home />
       </Container>
     </div>
