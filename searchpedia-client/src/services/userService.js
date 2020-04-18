@@ -3,8 +3,13 @@ import config from "../config/";
 
 const { apiBaseUrl, endpoints } = config;
 
-export const getAllUsers = function () {
-  return axios(`${apiBaseUrl}${endpoints.getAllUsers}`);
+export const getAllUsers = function (currentPage, pageSize) {
+  return axios(`${apiBaseUrl}${endpoints.getAllUsers}`, {
+    params: {
+      currentPage,
+      pageSize,
+    },
+  });
 };
 
 export const searchUsersByName = function (

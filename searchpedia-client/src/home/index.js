@@ -9,33 +9,20 @@ function Home() {
   const PAGE_SIZE = 5;
 
   const [totalRecords, setTotalRecords] = useState(0);
-
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
   const [users, setUsers] = useState([]);
+
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await getAllUsers();
+    const getUsers = async () => {
+      const { data } = searchKeyword.length
+        ? await searchUsersByName(searchKeyword, currentPage, PAGE_SIZE)
+        : await getAllUsers(currentPage, PAGE_SIZE);
       setUsers(data.records);
       setTotalRecords(data.totalRecords);
     };
-    fetchData();
-  }, []);
 
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [currentPage, setCurrentPage] = useState(0);
-  useEffect(() => {
-    const getSearchResults = async () => {
-      if (searchKeyword.length) {
-        const { data } = await searchUsersByName(
-          searchKeyword,
-          currentPage,
-          PAGE_SIZE
-        );
-        console.log(data.records);
-        setUsers(data.records);
-        setTotalRecords(data.totalRecords);
-      }
-    };
-    getSearchResults();
+    getUsers();
   }, [searchKeyword, currentPage]);
 
   const onQuerySubmit = (query) => {

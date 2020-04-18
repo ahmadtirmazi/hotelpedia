@@ -18,17 +18,17 @@ export const list = function (req: Request, res: Response) {
       throw new Error(getPayloadValidationErrorMessage(error));
     }
 
-    const currentPage = params.currentPage;
-    const pageSize = params.pageSize;
+    const { currentPage, pageSize, sortBy, sortOrder } = params;
 
     return getAllUsers()
-      .then((result: User[]) => {
-        let totalRecords = result.length;
-        let records = _.take(_.drop(result, currentPage * pageSize), pageSize);
+      .then((users: User[]) => {
+        let totalRecords = users.length;
+        let paginatedUsers = paginateUsers(users, currentPage, pageSize);
+        let sortedUsers = sortUsers(paginatedUsers, sortBy, sortOrder);
 
         res.status(200).json({
           totalRecords,
-          records
+          records: sortedUsers
         });
       })
   } catch (error) {
@@ -47,31 +47,40 @@ export const search = function (req: Request, res: Response) {
     const keyword = params.searchKeyword.toLowerCase();
 
     return getAllUsers()
-      .then((users: User[]) => {
-        return users.filter((user: any) => {
-          if (typeof user[searchBy] === 'string') {
-            return user[searchBy].toLowerCase().includes(keyword);
-          }
-          else return user[searchBy] == keyword;
-        })
-      })
+      .then((users: User[]) => filterUsers(users, searchBy, keyword))
       .then((filteredUsers: User[]) => {
-        let totalRecords = filteredUsers.length;
-
-        // paginate
-        let records = _.take(_.drop(filteredUsers, currentPage * pageSize), pageSize);
-
-        // sort
-        if (sortBy && sortOrder) {
-          records = _.orderBy(records, [sortBy], [sortOrder]);
-        }
+        let paginatedUsers = paginateUsers(filteredUsers, currentPage, pageSize);
+        let sortedUsers = sortUsers(paginatedUsers, sortBy, sortOrder);
 
         res.status(200).json({
-          totalRecords,
-          records
+          totalRecords: filteredUsers.length,
+          records: sortedUsers
         });
       })
   } catch (error) {
     handleError(error, res);
   }
 };
+
+const filterUsers = function (users: User[], searchBy: string, keyword: any) {
+  if (searchBy && keyword) {
+    return users.filter((user: any) => {
+      if (typeof user[searchBy] === 'string') {
+        return user[searchBy].toLowerCase().includes(keyword);
+      }
+      else return user[searchBy] == keyword;
+    })
+  }
+  else {
+    return users;
+  }
+}
+
+const paginateUsers = (users: User[], currentPage: number, pageSize: number) => {
+  return _.take(_.drop(users, currentPage * pageSize), pageSize);
+}
+
+
+const sortUsers = (users: User[], sortBy: string, sortOrder: 'asc' | 'desc') => {
+  return (sortBy && sortOrder) ? _.orderBy(users, [sortBy], [sortOrder]) : users;
+}
