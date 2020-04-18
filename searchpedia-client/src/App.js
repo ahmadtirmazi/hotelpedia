@@ -3,7 +3,7 @@ import "./App.css";
 import "typeface-roboto";
 
 import Container from "@material-ui/core/Container";
-import Home from "./components/home";
+import Home from "./home/index";
 
 function App() {
   return (
