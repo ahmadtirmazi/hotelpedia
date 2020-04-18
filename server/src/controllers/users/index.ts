@@ -24,7 +24,7 @@ export const list = function (req: Request, res: Response) {
     return getAllUsers()
       .then((result: User[]) => {
         let totalRecords = result.length;
-        let records = _.take(_.drop(result, (currentPage - 1) * pageSize), pageSize);
+        let records = _.take(_.drop(result, currentPage * pageSize), pageSize);
 
         res.status(200).json({
           totalRecords,
@@ -59,7 +59,7 @@ export const search = function (req: Request, res: Response) {
         let totalRecords = filteredUsers.length;
 
         // paginate
-        let records = _.take(_.drop(filteredUsers, (currentPage - 1) * pageSize), pageSize);
+        let records = _.take(_.drop(filteredUsers, currentPage * pageSize), pageSize);
 
         // sort
         if (sortBy && sortOrder) {

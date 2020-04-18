@@ -1,8 +1,8 @@
 const Joi = require("joi");
 
 export const usersSearchQuery = Joi.object({
-  currentPage: Joi.number().positive().default(1),
-  pageSize: Joi.number().positive().default(10),
+  currentPage: Joi.number().min(0).default(0),
+  pageSize: Joi.number().positive().default(5),
   searchBy: Joi.string().required().valid('name', 'email'),
   searchKeyword: Joi.string().required().min(1),
   sortBy: Joi.string().optional().valid('name', 'email'),

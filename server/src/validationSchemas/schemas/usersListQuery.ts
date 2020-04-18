@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
 export const usersListQuery = Joi.object({
-  currentPage: Joi.number().positive().default(1),
-  pageSize: Joi.number().positive().default(10),
+  currentPage: Joi.number().min(0).default(0),
+  pageSize: Joi.number().positive().default(5),
 });
