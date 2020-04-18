@@ -1,9 +1,5 @@
 const axios = require("axios");
 
-export interface IGetRequest {
-  url: string;
-}
-
 export enum HTTPMethod {
   GET = "get",
   POST = "post",

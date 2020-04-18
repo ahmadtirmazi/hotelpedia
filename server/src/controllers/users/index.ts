@@ -12,7 +12,6 @@ import {
 
 export const list = function (req: Request, res: Response) {
   try {
-
     let { error, value: params } = usersListQuery.validate(req.query);
     if (error) {
       throw new Error(getPayloadValidationErrorMessage(error));
@@ -25,7 +24,6 @@ export const list = function (req: Request, res: Response) {
         let totalRecords = users.length;
         let paginatedUsers = paginateUsers(users, currentPage, pageSize);
         let sortedUsers = sortUsers(paginatedUsers, sortBy, sortOrder);
-
         res.status(200).json({
           totalRecords,
           records: sortedUsers
@@ -63,17 +61,12 @@ export const search = function (req: Request, res: Response) {
 };
 
 const filterUsers = function (users: User[], searchBy: string, keyword: any) {
-  if (searchBy && keyword) {
-    return users.filter((user: any) => {
-      if (typeof user[searchBy] === 'string') {
-        return user[searchBy].toLowerCase().includes(keyword);
-      }
-      else return user[searchBy] == keyword;
-    })
-  }
-  else {
-    return users;
-  }
+  return users.filter((user: any) => {
+    if (typeof user[searchBy] === 'string') {
+      return user[searchBy].toLowerCase().includes(keyword);
+    }
+    else return user[searchBy] == keyword;
+  })
 }
 
 const paginateUsers = (users: User[], currentPage: number, pageSize: number) => {

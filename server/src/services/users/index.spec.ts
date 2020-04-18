@@ -13,17 +13,8 @@ describe("usersService", () => {
   });
 
   describe("getAllUsers()", () => {
-    it(`should return a promise for list of users`, () => {
-      requestMock.request.mockReturnValue(Promise);
-      expect(getAllUsers()).toBe(Promise);
-    });
-
-    it(`should make a get request with correct endpoint`, () => {
-      getAllUsers();
-      expect(requestMock.request).toHaveBeenCalledWith({
-        method: HTTPMethod.GET,
-        url: config.dataEndpoints.getAllUsers,
-      });
+    it(`should return an array for list of users`, () => {
+      expect(getAllUsers()).resolves.toEqual([]);
     });
   });
 });
