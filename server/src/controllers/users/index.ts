@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+var _ = require('lodash');
 
 import { getAllUsers } from "services/users";
 
@@ -11,13 +12,25 @@ import {
 
 export const list = function (req: Request, res: Response) {
   try {
-    const { payloadError, queryParams } = usersListQuery.validate(req.query);
-    if (payloadError) {
-      throw new Error(getPayloadValidationErrorMessage(payloadError));
+
+    let { error, value: params } = usersListQuery.validate(req.query);
+    if (error) {
+      throw new Error(getPayloadValidationErrorMessage(error));
     }
 
+    const currentPage = params.currentPage;
+    const pageSize = params.pageSize;
+
     return getAllUsers()
-      .then((result: User[]) => res.status(200).json(result))
+      .then((result: User[]) => {
+        let totalRecords = result.length;
+        let records = _.take(_.drop(result, (currentPage - 1) * pageSize), pageSize);
+
+        res.status(200).json({
+          totalRecords,
+          records
+        });
+      })
   } catch (error) {
     handleError(error, res);
   }
@@ -25,17 +38,27 @@ export const list = function (req: Request, res: Response) {
 
 export const search = function (req: Request, res: Response) {
   try {
-    const { payloadError, value: params } = usersSearchQuery.validate(req.query);
-    if (payloadError) {
-      throw new Error(getPayloadValidationErrorMessage(payloadError));
+    const { error, value: params } = usersSearchQuery.validate(req.query);
+    if (error) {
+      throw new Error(getPayloadValidationErrorMessage(error));
     }
 
     const keyword = params.name.toLowerCase();
+    const currentPage = params.currentPage;
+    const pageSize = params.pageSize;
 
     return getAllUsers()
       .then((users: User[]) =>
         users.filter((user: User) => user.name.toLowerCase().includes(keyword)))
-      .then((result: User[]) => res.status(200).json(result))
+      .then((filteredUsers: User[]) => {
+        let totalRecords = filteredUsers.length;
+        let records = _.take(_.drop(filteredUsers, (currentPage - 1) * pageSize), pageSize);
+
+        res.status(200).json({
+          totalRecords,
+          records
+        });
+      })
   } catch (error) {
     handleError(error, res);
   }
