@@ -11,7 +11,12 @@ function SearchForm(props) {
 
   return (
     <div>
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <form
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+        data-testid="search-form"
+      >
         <TextField
           id="search-term-text"
           label="Search by name"
