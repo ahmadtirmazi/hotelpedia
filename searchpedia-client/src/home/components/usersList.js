@@ -19,6 +19,10 @@ const useStyles = makeStyles({
 function UsersList(props) {
   const classes = useStyles();
 
+  const onClickTableHeader = (columnName) => {
+    props.onSort(columnName);
+  };
+
   return (
     <div>
       {props.users && props.users.length === 0 ? (
@@ -29,11 +33,33 @@ function UsersList(props) {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Id</TableCell>
-                  <TableCell align="right">Name</TableCell>
-                  <TableCell align="right">City</TableCell>
-                  <TableCell align="right">Email</TableCell>
-                  <TableCell align="right">Phone</TableCell>
+                  <TableCell onClick={() => onClickTableHeader("id")}>
+                    Id
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    onClick={(e) => onClickTableHeader("name")}
+                  >
+                    Name
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    onClick={() => onClickTableHeader("address.city")}
+                  >
+                    City
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    onClick={() => onClickTableHeader("email")}
+                  >
+                    Email
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    onClick={() => onClickTableHeader("phone")}
+                  >
+                    Phone
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

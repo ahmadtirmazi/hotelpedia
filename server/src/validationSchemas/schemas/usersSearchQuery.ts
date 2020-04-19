@@ -5,7 +5,7 @@ export const usersSearchQuery = Joi.object({
   pageSize: Joi.number().positive().default(5),
   searchBy: Joi.string().required().valid('name', 'email'),
   searchKeyword: Joi.string().required().min(1),
-  sortBy: Joi.string().optional().valid('name', 'email'),
+  sortBy: Joi.string().optional(),
   sortOrder: Joi.string().when('sortBy', {
     is: null,
     then: Joi.optional(),

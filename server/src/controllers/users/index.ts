@@ -21,12 +21,12 @@ export const list = function (req: Request, res: Response) {
 
     return getAllUsers()
       .then((users: User[]) => {
-        let totalRecords = users.length;
-        let paginatedUsers = paginateUsers(users, currentPage, pageSize);
-        let sortedUsers = sortUsers(paginatedUsers, sortBy, sortOrder);
+        let sortedUsers = sortUsers(users, sortBy, sortOrder);
+        let paginatedUsers = paginateUsers(sortedUsers, currentPage, pageSize);
+
         res.status(200).json({
-          totalRecords,
-          records: sortedUsers
+          totalRecords: users.length,
+          records: paginatedUsers
         });
       })
   } catch (error) {
@@ -47,12 +47,12 @@ export const search = function (req: Request, res: Response) {
     return getAllUsers()
       .then((users: User[]) => filterUsers(users, searchBy, keyword))
       .then((filteredUsers: User[]) => {
-        let paginatedUsers = paginateUsers(filteredUsers, currentPage, pageSize);
-        let sortedUsers = sortUsers(paginatedUsers, sortBy, sortOrder);
+        let sortedUsers = sortUsers(filteredUsers, sortBy, sortOrder);
+        let paginatedUsers = paginateUsers(sortedUsers, currentPage, pageSize);
 
         res.status(200).json({
           totalRecords: filteredUsers.length,
-          records: sortedUsers
+          records: paginatedUsers
         });
       })
   } catch (error) {

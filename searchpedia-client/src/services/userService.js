@@ -3,11 +3,18 @@ import config from "../config/";
 
 const { apiBaseUrl, endpoints } = config;
 
-export const getAllUsers = function (currentPage, pageSize) {
+export const getAllUsers = function (
+  currentPage,
+  pageSize,
+  sortBy,
+  sortOrder = "asc"
+) {
   return axios(`${apiBaseUrl}${endpoints.getAllUsers}`, {
     params: {
       currentPage,
       pageSize,
+      sortBy,
+      sortOrder,
     },
   });
 };
