@@ -74,6 +74,8 @@ function Home() {
         currentPage={currentPage}
         onChangePage={onChangePage}
         onSort={onSort}
+        sortBy={sortOptions.sortBy}
+        sortOrder={sortOptions.sortOrder}
       ></UsersList>
     </div>
   );

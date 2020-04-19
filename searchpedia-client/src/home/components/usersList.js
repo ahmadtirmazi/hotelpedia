@@ -9,6 +9,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
 
 const useStyles = makeStyles({
   table: {
@@ -23,6 +24,20 @@ function UsersList(props) {
     props.onSort(columnName);
   };
 
+  const getHeaderTableCell = (labelText, headerId, isNumeric = false) => {
+    return (
+      <TableCell align={isNumeric ? "left" : "right"}>
+        <TableSortLabel
+          active={props.sortBy === headerId}
+          direction={props.sortBy === headerId ? props.sortOrder : "asc"}
+          onClick={() => onClickTableHeader(headerId)}
+        >
+          {labelText}
+        </TableSortLabel>
+      </TableCell>
+    );
+  };
+
   return (
     <div>
       {props.users && props.users.length === 0 ? (
@@ -33,33 +48,11 @@ function UsersList(props) {
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell onClick={() => onClickTableHeader("id")}>
-                    Id
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    onClick={(e) => onClickTableHeader("name")}
-                  >
-                    Name
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    onClick={() => onClickTableHeader("address.city")}
-                  >
-                    City
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    onClick={() => onClickTableHeader("email")}
-                  >
-                    Email
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    onClick={() => onClickTableHeader("phone")}
-                  >
-                    Phone
-                  </TableCell>
+                  {getHeaderTableCell("Id", "id", true)}
+                  {getHeaderTableCell("Name", "name")}
+                  {getHeaderTableCell("City", "address.city")}
+                  {getHeaderTableCell("Email", "email")}
+                  {getHeaderTableCell("Phone", "phone")}
                 </TableRow>
               </TableHead>
               <TableBody>
