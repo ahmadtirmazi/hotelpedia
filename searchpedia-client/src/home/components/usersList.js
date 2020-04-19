@@ -21,7 +21,7 @@ function UsersList(props) {
 
   return (
     <div>
-      {props.users.length === 0 ? (
+      {props.users && props.users.length === 0 ? (
         <p>No users found!</p>
       ) : (
         <div>
