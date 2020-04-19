@@ -43,3 +43,8 @@ Start the client app
 ```
 yarn start
 ```
+
+If app runs successfully, you should be able to use the app on following url in local env
+```
+http://localhost:3000/
+```
